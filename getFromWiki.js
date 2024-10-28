@@ -67,8 +67,10 @@ async function main() {
         // await timeout(200);
     }
     result += 'END:VCALENDAR\n';
-    FS.writeFileSync(PATH.join(__dirname, 'getFromWiki.ics'), result);
 
-    console.log('Save To "getFromWiki.ics"');
+    const savePath = PATH.join(__dirname, 'release', 'gcb.ics');
+    FS.writeFileSync(savePath, result);
+
+    console.log(`Save To "${savePath}"`);
 }
 main();
