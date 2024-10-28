@@ -4,7 +4,9 @@
 
 只需订阅 `https://smallzombie.github.io/GenshinCharacterBirthday/gcb.ics` 即可。
 
-详见：[这篇文章](https://www.bilibili.com/opus/993249910667083777)。
+新增 Json 版数据：`https://smallzombie.github.io/GenshinCharacterBirthday/gcb.json`
+
+详见[这篇文章](https://www.bilibili.com/opus/993249910667083777)。
 
 什么是 [ICS](https://zh.wikipedia.org/wiki/ICalendar)？
 

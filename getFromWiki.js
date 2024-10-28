@@ -47,7 +47,9 @@ async function main() {
         'REFRESH-INTERVAL;VALUE=DURATION:P1D\n' + // 定时刷新，每天
         'CALSCALE:GREGORIAN\n'
     ;
+    const resultObj = [];
     let count = 0;
+
     for (const i of roles) {
         if (i.title.includes('预告')) continue;
         if (i.title.includes('旅行者')) continue;
@@ -62,14 +64,32 @@ async function main() {
             `SUMMARY:${i.title} 生日\n` +
             'END:VEVENT\n'
         ;
+        resultObj.push({
+            wiki_id: i.content_id,
+            name: i.title,
+            birthday: {
+                month: birthday.getMonth() + 1,
+                day: birthday.getDate(),
+            },
+            release: release ? {
+                year: release.getFullYear(),
+                month: release.getMonth() + 1,
+                day: release.getDate(),
+            } : void 0,
+        });
 
         console.log(`${++count}/${roles.length}`);
         // await timeout(200);
     }
+
     result += 'END:VCALENDAR\n';
 
-    const savePath = PATH.join(__dirname, 'gcb.ics');
-    FS.writeFileSync(savePath, result);
-    console.log(`Save To "${savePath}"`);
+    const icsSavePath = PATH.join(__dirname, 'gcb.ics');
+    FS.writeFileSync(icsSavePath, result);
+    console.log(`[√] ICS Save To "${icsSavePath}"`);
+
+    const jsonSavePath = PATH.join(__dirname, 'gcb.json');
+    FS.writeFileSync(jsonSavePath, JSON.stringify(resultObj, null, 2));
+    console.log(`[√] Json Save To "${jsonSavePath}"`);
 }
 main();
