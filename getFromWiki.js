@@ -68,9 +68,8 @@ async function main() {
     }
     result += 'END:VCALENDAR\n';
 
-    const savePath = PATH.join(__dirname, 'release', 'gcb.ics');
+    const savePath = PATH.join(__dirname, 'gcb.ics');
     FS.writeFileSync(savePath, result);
-
     console.log(`Save To "${savePath}"`);
 }
 main();

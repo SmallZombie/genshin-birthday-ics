@@ -1,34 +1,32 @@
 # 原神角色生日
-通过在日历软件中订阅 ics 文件来获取最新的原神角色生日提醒。
+通过在日历软件中订阅 ICS 文件来获取最新的原神角色生日提醒。
 
-详见：[文章]()
+
+只需订阅 `https://smallzombie.github.io/GenshinCharacterBirthday/gcb.ics` 即可。
+
+详见：[这篇文章](https://www.bilibili.com/opus/993249910667083777)。
 
 什么是 [ICS](https://zh.wikipedia.org/wiki/ICalendar)？
 
 会随新角色的发布而更新，没按时更新你也可以直接开个讨论催我。
 
 
-
 # TODO
 未来也许会放个脚本在 Github 上让它自己跑。
 
 
-
 # getFromCalendar(已弃用)
-用于从留影叙假期中获取角色生日，因此数据不再更新，此 API 也将弃用。
-
+用于从留影叙佳期中获取角色生日，因此数据不再更新，此 API 也将弃用。
 
 
 # add(已弃用)
 用于手动添加新角色生日。
 
 
-
 原本是用来为 `getFromCalendar` 获取的数据手动添加新角色数据用的。
 
 # getFromWiki
 用于从米游社原神 wiki 中获取角色生日。
-
 
 
 # 顺便收集到的角色头像
