@@ -2,7 +2,9 @@
 通过在日历软件中订阅 ics 文件来获取最新的原神角色生日提醒。
 
 详见：[文章]()
+
 什么是 [ICS](https://zh.wikipedia.org/wiki/ICalendar)？
+
 会随新角色的发布而更新，没按时更新你也可以直接开个讨论催我。
 
 
@@ -15,6 +17,7 @@
 
 # add(已弃用)
 用于手动添加新角色生日。
+
 原本是用来为 `getFromCalendar` 获取的数据手动添加新角色数据用的。
 
 # getFromWiki
