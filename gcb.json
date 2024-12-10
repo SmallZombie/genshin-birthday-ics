@@ -1,5 +1,57 @@
 [
   {
+    "wiki_id": 502928,
+    "name": "恰斯卡",
+    "birthday": {
+      "month": 12,
+      "day": 10
+    },
+    "release": {
+      "year": 2024,
+      "month": 10,
+      "day": 7
+    }
+  },
+  {
+    "wiki_id": 502927,
+    "name": "欧洛伦",
+    "birthday": {
+      "month": 10,
+      "day": 14
+    },
+    "release": {
+      "year": 2024,
+      "month": 10,
+      "day": 7
+    }
+  },
+  {
+    "wiki_id": 5111,
+    "name": "纳西妲",
+    "birthday": {
+      "month": 10,
+      "day": 27
+    },
+    "release": {
+      "year": 2022,
+      "month": 9,
+      "day": 26
+    }
+  },
+  {
+    "wiki_id": 1627,
+    "name": "胡桃",
+    "birthday": {
+      "month": 7,
+      "day": 15
+    },
+    "release": {
+      "year": 2021,
+      "month": 2,
+      "day": 27
+    }
+  },
+  {
     "wiki_id": 502306,
     "name": "希诺宁",
     "birthday": {
@@ -468,19 +520,6 @@
     }
   },
   {
-    "wiki_id": 1627,
-    "name": "胡桃",
-    "birthday": {
-      "month": 7,
-      "day": 15
-    },
-    "release": {
-      "year": 2021,
-      "month": 2,
-      "day": 27
-    }
-  },
-  {
     "wiki_id": 1220,
     "name": "达达利亚",
     "birthday": {
@@ -551,19 +590,6 @@
       "year": 2020,
       "month": 1,
       "day": 3
-    }
-  },
-  {
-    "wiki_id": 5111,
-    "name": "纳西妲",
-    "birthday": {
-      "month": 10,
-      "day": 27
-    },
-    "release": {
-      "year": 2022,
-      "month": 9,
-      "day": 26
     }
   },
   {
