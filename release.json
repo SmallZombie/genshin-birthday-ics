@@ -1,5 +1,57 @@
 [
   {
+    "wiki_id": 503613,
+    "name": "玛薇卡",
+    "birthday": {
+      "month": 8,
+      "day": 28
+    },
+    "release": {
+      "year": 2024,
+      "month": 11,
+      "day": 25
+    }
+  },
+  {
+    "wiki_id": 503612,
+    "name": "茜特菈莉",
+    "birthday": {
+      "month": 1,
+      "day": 20
+    },
+    "release": {
+      "year": 2024,
+      "month": 11,
+      "day": 25
+    }
+  },
+  {
+    "wiki_id": 500207,
+    "name": "那维莱特",
+    "birthday": {
+      "month": 12,
+      "day": 18
+    },
+    "release": {
+      "year": 2023,
+      "month": 8,
+      "day": 14
+    }
+  },
+  {
+    "wiki_id": 1290,
+    "name": "钟离",
+    "birthday": {
+      "month": 12,
+      "day": 31
+    },
+    "release": {
+      "year": 2020,
+      "month": 11,
+      "day": 23
+    }
+  },
+  {
     "wiki_id": 502928,
     "name": "恰斯卡",
     "birthday": {
@@ -377,19 +429,6 @@
     }
   },
   {
-    "wiki_id": 500207,
-    "name": "那维莱特",
-    "birthday": {
-      "month": 12,
-      "day": 18
-    },
-    "release": {
-      "year": 2023,
-      "month": 8,
-      "day": 14
-    }
-  },
-  {
     "wiki_id": 6937,
     "name": "林尼",
     "birthday": {
@@ -616,19 +655,6 @@
       "year": 2021,
       "month": 1,
       "day": 6
-    }
-  },
-  {
-    "wiki_id": 1290,
-    "name": "钟离",
-    "birthday": {
-      "month": 12,
-      "day": 31
-    },
-    "release": {
-      "year": 2020,
-      "month": 11,
-      "day": 23
     }
   },
   {
@@ -973,8 +999,8 @@
     "wiki_id": 105,
     "name": "班尼特",
     "birthday": {
-      "month": 2,
-      "day": 29
+      "month": 3,
+      "day": 1
     },
     "release": {
       "year": 2020,
