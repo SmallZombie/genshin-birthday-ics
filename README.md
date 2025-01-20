@@ -11,5 +11,9 @@ Automatically updated by Github Action.\
 For `release.json` field definitions, see [ReleaseJsonType.ts](src/type/ReleaseJsonType.ts).
 
 
+# How to use
+Please visit [Repository Wiki](https://github.com/SmallZombie/genshin-birthday-ics/wiki)
+
+
 # Other
 [Character avatars collected (from 留影叙佳期)](avatars.md)

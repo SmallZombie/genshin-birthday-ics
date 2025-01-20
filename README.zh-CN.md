@@ -12,5 +12,9 @@
 `release.json` 字段定义见 [ReleaseJsonType.ts](src/type/ReleaseJsonType.ts)。
 
 
+# 如何使用
+请转到[仓库 wiki](https://github.com/SmallZombie/genshin-birthday-ics/wiki)
+
+
 # 其他
 [顺便收集到的角色头像(来自留影叙佳期)](avatars.md)

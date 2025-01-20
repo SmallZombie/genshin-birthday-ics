@@ -5,9 +5,6 @@ export type ReleaseJsonType = {
         month: number;
         day: number;
     };
-    release?: {
-        year: number;
-        month: number;
-        day: number;
-    };
+    // ISO 8601
+    release?: string;
 }[];

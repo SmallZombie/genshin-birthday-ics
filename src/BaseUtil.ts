@@ -21,29 +21,45 @@ class Vcalendar {
 
     /**
      * 请不要将此函数当作通用函数，此函数可能仅适用于本项目
-     * 详见 https://zh.wikipedia.org/wiki/ICalendar
+     * 详见 https://en.wikipedia.org/wiki/ICalendar
+     * 详见 https://icalendar.org/iCalendar-RFC-5545
      */
     toString(): string {
-        let result = 'BEGIN:VCALENDAR\n' +
-            `VERSION:${this.version}\n` +
-            `PRODID:${this.prodId}\n` +
-            `NAME:${this.name}\n` +
-            // 'REFRESH-INTERVAL;VALUE=DURATION:P1W\n' + // 定时刷新，每周
-            `REFRESH-INTERVAL;VALUE=DURATION:${this.refreshInterval}\n` + // 定时刷新，每天
-            `CALSCALE:${this.calScale}\n` +
-            `TZID:${this.tzid}\n`
-        ;
+        const lines = ['BEGIN:VCALENDAR'];
+        lines.push('VERSION:' + this.version);
+        lines.push('PRODID:' + this.prodId);
+        lines.push('NAME:' + this.name);
+        lines.push('REFRESH-INTERVAL;VALUE=DURATION:' + this.refreshInterval)
+        lines.push('CALSCALE:' + this.calScale);
+        lines.push('TZID:' + this.tzid);
+
         for (const i of this.items) {
-            result += 'BEGIN:VEVENT\n' +
-                `UID:${i.uid}\n` +
-                `DTSTART;VALUE=DATE:${i.dtstart}\n` +
-                `RRULE:${i.rrule}\n` +
-                `SUMMARY:${i.summary}\n` +
-                'END:VEVENT\n'
-            ;
+            lines.push('BEGIN:VEVENT');
+            lines.push('UID:' + i.uid);
+            lines.push('DTSTAMP:' + i.dtstamp);
+
+            const dtstart = i.dtstart.at(-1) === 'Z' ? i.dtstart.slice(0, -1) : i.dtstart;
+            lines.push(`DTSTART;${dtstart.length === 8 ? 'VALUE=DATE' : 'TZID=' + this.tzid}:${dtstart}`);
+
+            if (i.dtend) {
+                const dtend = i.dtend.at(-1) === 'Z' ? i.dtend.slice(0, -1) : i.dtend;
+                lines.push(`DTEND;${dtend.length === 8 ? 'VALUE=DATE' : 'TZID=' + this.tzid}:${dtend}`);
+            }
+            if (i.rrule) {
+                lines.push(`RRULE:${i.rrule}`);
+            }
+            if (i.summary) {
+                lines.push(`SUMMARY:${i.summary}`);
+            }
+            if (i.description) {
+                lines.push(`DESCRIPTION:${i.description}`);
+            }
+
+            lines.push('END:VEVENT');
         }
-        result += 'END:VCALENDAR\n';
-        return result;
+
+        lines.push('END:VCALENDAR');
+        return lines.join('\n');
     }
 
 
@@ -53,19 +69,27 @@ class Vcalendar {
     static fromString(data: string): Vcalendar {
         const builder = new VcalendarBuilder();
         const items: Vevent[] = [];
-        let inEvent = false;
 
+        let inEvent = false;
         for (const i of data.split('\n')) {
             if (inEvent) {
                 const item = items.at(-1)!;
                 if (i.startsWith('UID:')) {
                     item.uid = i.slice('UID:'.length);
-                } else if (i.startsWith('DTSTART;VALUE=DATE:')) {
-                    item.dtstart = i.slice('DTSTART;VALUE=DATE:'.length);
+                } else if (i.startsWith('DTSTAMP:')) {
+                    item.dtstamp = i.slice('DTSTAMP:'.length);
+                } else if (i.startsWith('DTSTART;VALUE=')) {
+                    const temp = i.slice('DTSTART;VALUE='.length);
+                    item.dtstart = temp.slice(temp.indexOf(':') + 1);
+                } else if (i.startsWith('DTEND;VALUE=')) {
+                    const temp = i.slice('DTEND;VALUE='.length);
+                    item.dtend = temp.slice(temp.indexOf(':') + 1);
                 } else if (i.startsWith('RRULE:')) {
                     item.rrule = i.slice('RRULE:'.length);
                 } else if (i.startsWith('SUMMARY:')) {
                     item.summary = i.slice('SUMMARY:'.length);
+                } else if (i.startsWith('DESCRIPTION:')) {
+                    item.description = i.slice('DESCRIPTION:'.length);
                 } else if (i === 'END:VEVENT') {
                     inEvent = false;
                 }
@@ -84,7 +108,11 @@ class Vcalendar {
                     builder.setTzid(i.slice('TZID:'.length));
                 } else if (i === 'BEGIN:VEVENT') {
                     inEvent = true;
-                    items.push({});
+                    items.push({
+                        uid: crypto.randomUUID(),
+                        dtstamp: dateToDateTime(new Date()),
+                        dtstart: ''
+                    });
                 }
             }
         }
@@ -146,13 +174,21 @@ class VcalendarBuilder {
 }
 
 type Vevent = {
-    uid?: string;
-    dtstart?: string;
+    uid: string;
+    dtstamp: string;
+    dtstart: string;
+    dtend?: string;
     rrule?: string;
     summary?: string;
+    description?: string;
 }
 
 const timeout = (time: number) => new Promise(resolve => setTimeout(resolve, time));
+
+function dateToDateTime(date: Date) {
+    const iso = date.toISOString();
+    return iso.slice(0, iso.lastIndexOf('.')).replaceAll('.', '').replaceAll('-', '').replaceAll(':', '') + 'Z';
+}
 
 
 export type {
@@ -161,5 +197,6 @@ export type {
 export {
     Vcalendar,
     VcalendarBuilder,
-    timeout
+    timeout,
+    dateToDateTime
 }

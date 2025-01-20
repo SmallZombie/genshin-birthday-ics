@@ -1,8 +1,9 @@
-import { existsSync } from "@std/fs";
-import { join } from "@std/path";
-import { Vcalendar } from "../BaseUtil.ts";
-import { getAllCharacters, getCharacterDetail } from "../WikiController.ts";
-import type { ReleaseJsonType } from "../type/ReleaseJsonType.ts";
+import { existsSync } from '@std/fs';
+import { join } from '@std/path';
+import { Vcalendar } from '../BaseUtil.ts';
+import { getAllCharacters, getCharacterDetail } from '../WikiController.ts';
+import type { ReleaseJsonType } from '../type/ReleaseJsonType.ts';
+import { UID_PREFIX } from '../Const.ts';
 
 
 async function update() {
@@ -25,7 +26,7 @@ async function update() {
     const result = await getAllCharacters();
 
     // 检查新增
-    const newItems = result.filter(v => !ics.items.some(vv => vv.uid === 'genshin-' + v.content_id.toString()));
+    const newItems = result.filter(v => !ics.items.some(vv => vv.uid === UID_PREFIX + v.content_id.toString()));
     if (!newItems.length) {
         console.log('[-] No new characters');
         return;
@@ -36,7 +37,8 @@ async function update() {
         const releaseStr = release ? `${release.getFullYear()}${String(release.getMonth() + 1).padStart(2, '0')}${String(release.getDate()).padStart(2, '0')}` : '20200928';
 
         ics.items.push({
-            uid: 'genshin-' + i.content_id.toString()!,
+            uid: UID_PREFIX + i.content_id.toString()!,
+            dtstamp: dateToDateTime(new Date()),
             dtstart: releaseStr,
             rrule: `FREQ=YEARLY;BYMONTH=${String(birthday.getMonth() + 1).padStart(2, '0')};BYMONTHDAY=${String(birthday.getDate()).padStart(2, '0')}`,
             summary: `${i.title} 生日`,
@@ -44,15 +46,8 @@ async function update() {
         json.push({
             wiki_id: i.content_id,
             name: i.title,
-            birthday: {
-                month: birthday.getMonth() + 1,
-                day: birthday.getDate(),
-            },
-            release: release ? {
-                year: release.getFullYear(),
-                month: release.getMonth() + 1,
-                day: release.getDate(),
-            } : void 0,
+            birthday: birthday.toISOString(),
+            release: release ? release.toISOString() : void 0,
         });
 
         console.log(`[√] "${i.title}"(${i.content_id}) has been added`);

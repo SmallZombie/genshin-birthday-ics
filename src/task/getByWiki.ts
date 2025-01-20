@@ -1,7 +1,8 @@
 import { join } from '@std/path';
-import { Vcalendar, VcalendarBuilder, timeout } from "../BaseUtil.ts";
-import { getAllCharacters, getCharacterDetail } from "../WikiController.ts";
-import { ReleaseJsonType } from "../type/ReleaseJsonType.ts";
+import { Vcalendar, VcalendarBuilder, dateToDateTime, timeout } from '../BaseUtil.ts';
+import { getAllCharacters, getCharacterDetail } from '../WikiController.ts';
+import { ReleaseJsonType } from '../type/ReleaseJsonType.ts';
+import { UID_PREFIX } from '../Const.ts';
 
 
 async function main() {
@@ -25,7 +26,8 @@ async function main() {
         const releaseStr = release ? `${release.getFullYear()}${String(release.getMonth() + 1).padStart(2, '0')}${String(release.getDate()).padStart(2, '0')}` : '20200928';
 
         vcalendar.items.push({
-            uid: 'genshin-' + item.content_id.toString()!,
+            uid: UID_PREFIX + item.content_id.toString()!,
+            dtstamp: dateToDateTime(new Date()),
             dtstart: releaseStr,
             rrule: `FREQ=YEARLY;BYMONTH=${String(birthday.getMonth() + 1).padStart(2, '0')};BYMONTHDAY=${String(birthday.getDate()).padStart(2, '0')}`,
             summary: `${item.title} 生日`,
@@ -37,11 +39,7 @@ async function main() {
                 month: birthday.getMonth() + 1,
                 day: birthday.getDate(),
             },
-            release: release ? {
-                year: release.getFullYear(),
-                month: release.getMonth() + 1,
-                day: release.getDate(),
-            } : void 0,
+            release: release ? release.toISOString() : void 0,
         });
 
         console.log(`${i + 1}/${characters.length}`);
