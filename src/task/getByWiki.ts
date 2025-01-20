@@ -5,12 +5,12 @@ import { ReleaseJsonType } from "../type/ReleaseJsonType.ts";
 
 
 async function main() {
-    const characters = (await getAllCharacters()).slice(0, 80);
+    const characters = await getAllCharacters();
 
     const builder = new VcalendarBuilder();
     const vcalendar: Vcalendar = builder
         .setVersion('2.0')
-        .setProdId('-//SmallZombie//getFromWiki//ZH')
+        .setProdId('-//SmallZombie//Genshin Birthday//ZH')
         .setName('原神角色生日')
         .setRefreshInterval('P1D')
         .setCalScale('GREGORIAN')
