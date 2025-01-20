@@ -38,7 +38,7 @@ async function update() {
 
         ics.items.push({
             uid: UID_PREFIX + i.content_id.toString()!,
-            dtstamp: dateToDateTime(new Date()),
+            dtstamp: ics.dateToDateTime(new Date()),
             dtstart: releaseStr,
             rrule: `FREQ=YEARLY;BYMONTH=${String(birthday.getMonth() + 1).padStart(2, '0')};BYMONTHDAY=${String(birthday.getDate()).padStart(2, '0')}`,
             summary: `${i.title} 生日`,
@@ -46,7 +46,10 @@ async function update() {
         json.push({
             wiki_id: i.content_id,
             name: i.title,
-            birthday: birthday.toISOString(),
+            birthday: {
+                month: birthday.getMonth() + 1,
+                day: birthday.getDate(),
+            },
             release: release ? release.toISOString() : void 0,
         });
 

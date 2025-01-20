@@ -1,5 +1,5 @@
 import { join } from '@std/path';
-import { Vcalendar, VcalendarBuilder, dateToDateTime, timeout } from '../BaseUtil.ts';
+import { Vcalendar, VcalendarBuilder, timeout } from '../BaseUtil.ts';
 import { getAllCharacters, getCharacterDetail } from '../WikiController.ts';
 import { ReleaseJsonType } from '../type/ReleaseJsonType.ts';
 import { UID_PREFIX } from '../Const.ts';
@@ -16,6 +16,7 @@ async function main() {
         .setRefreshInterval('P1D')
         .setCalScale('GREGORIAN')
         .setTzid('Asia/Shanghai')
+        .setTzoffset('+0800')
         .build();
 
     const jsonItems: ReleaseJsonType = [];
@@ -27,7 +28,7 @@ async function main() {
 
         vcalendar.items.push({
             uid: UID_PREFIX + item.content_id.toString()!,
-            dtstamp: dateToDateTime(new Date()),
+            dtstamp: vcalendar.dateToDateTime(new Date()),
             dtstart: releaseStr,
             rrule: `FREQ=YEARLY;BYMONTH=${String(birthday.getMonth() + 1).padStart(2, '0')};BYMONTHDAY=${String(birthday.getDate()).padStart(2, '0')}`,
             summary: `${item.title} 生日`,
