@@ -1,4 +1,4 @@
 export type Character = {
-    birthday: Date;
-    release?: Date;
+    id: number;
+    name: string;
 }

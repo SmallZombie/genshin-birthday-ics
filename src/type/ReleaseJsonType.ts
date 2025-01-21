@@ -1,5 +1,5 @@
 export type ReleaseJsonType = {
-    wiki_id: number;
+    id: number;
     name: string;
     birthday: {
         month: number;

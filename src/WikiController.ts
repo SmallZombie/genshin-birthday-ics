@@ -1,7 +1,8 @@
-import { Character } from './type/CharacterType.ts';
+import { CharacterDetailType } from './type/CharacterDetailType.ts';
+import { CharacterType } from './type/CharacterType.ts';
 
 
-async function getAllCharacters(): Promise<{ title: string; content_id: number }[]> {
+async function getAllCharacters(): Promise<CharacterType[]> {
     const result = await fetch('https://api-takumi-static.mihoyo.com/common/blackboard/ys_obc/v1/home/content/list?app_sn=ys_obc&channel_id=189').then(res => res.json()) as {
         data: {
             list: {
@@ -17,17 +18,18 @@ async function getAllCharacters(): Promise<{ title: string; content_id: number }
         };
     };
     const characters = result.data.list.find(v => v.name === '图鉴')!.children.find(v => v.name === '角色')!.list;
-    const filteredCharacters = characters.filter(v => {
+    return characters.filter(v => {
         if (v.title.includes('预告')) return false;
         if (v.title.includes('旅行者')) return false;
         return true;
-    });
-
-    return filteredCharacters;
+    }).map(v => ({
+        id: v.content_id,
+        name: v.title
+    }));
 }
 
 /** 获取角色生日和角色上线时间 */
-async function getCharacterDetail(charactersID: number): Promise<Character> {
+async function getCharacterDetail(charactersID: number): Promise<CharacterDetailType> {
     const res = await fetch('https://api-takumi-static.mihoyo.com/hoyowiki/genshin/wapi/entry_page?entry_page_id=' + charactersID).then(res => res.json()) as {
         data: {
             page: {
