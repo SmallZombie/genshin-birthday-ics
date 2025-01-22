@@ -1,5 +1,5 @@
 import { join } from '@std/path';
-import { Vcalendar, VcalendarBuilder, timeout } from './src/BaseUtil.ts';
+import { Vcalendar, VcalendarBuilder, getDateByTimezone, getFullYearByTimezone, getMonthByTimezone, timeout } from './src/BaseUtil.ts';
 import { getAllCharacters, getCharacterDetail } from './src/WikiController.ts';
 import { ReleaseJsonType } from './src/type/ReleaseJsonType.ts';
 import { UID_PREFIX } from './src/Const.ts';
@@ -46,9 +46,11 @@ async function main() {
         const item = characters[i];
         const { birthday, release } = await getCharacterDetail(item.id);
 
+        const birthdayMonth = getMonthByTimezone(birthday, ics.tzid);
+        const birthdayDay = getDateByTimezone(birthday, ics.tzid);
         // 20200928 是原神公测时间，没有发布时间的按公测时间算
-        const releaseStr = release ? `${release.getFullYear()}${String(release.getMonth() + 1).padStart(2, '0')}${String(release.getDate()).padStart(2, '0')}` : '20200928';
-        const rrule = `FREQ=YEARLY;BYMONTH=${String(birthday.getMonth() + 1).padStart(2, '0')};BYMONTHDAY=${String(birthday.getDate()).padStart(2, '0')}`;
+        const releaseStr = release ? `${getFullYearByTimezone(release, ics.tzid)}${String(getMonthByTimezone(release, ics.tzid)).padStart(2, '0')}${String(getDateByTimezone(release, ics.tzid)).padStart(2, '0')}` : '20200928';
+        const rrule = `FREQ=YEARLY;BYMONTH=${String(birthdayMonth).padStart(2, '0')};BYMONTHDAY=${String(birthdayDay).padStart(2, '0')}`;
 
         let needSaveICSInThisCycle = false;
         let icsItem = ics.items.find(v => v.uid === UID_PREFIX + item.id);
@@ -80,12 +82,13 @@ async function main() {
         let needSaveJSONInThisCycle = false;
         const jsonItem = json.find(v => v.id === item.id);
         if (jsonItem) {
-            if (jsonItem.birthday.month !== birthday.getMonth() + 1) {
-                jsonItem.birthday.month = birthday.getMonth() + 1;
+            if (jsonItem.birthday.month !== birthdayMonth) {
+                jsonItem.birthday.month = birthdayMonth;
                 needSaveJSONInThisCycle = true;
             }
-            if (jsonItem.birthday.day !== birthday.getDate()) {
-                jsonItem.birthday.day = birthday.getDate();
+
+            if (jsonItem.birthday.day !== birthdayDay) {
+                jsonItem.birthday.day = birthdayDay;
                 needSaveJSONInThisCycle = true;
             }
             if (release && jsonItem.release !== release.toISOString()) {
@@ -97,8 +100,8 @@ async function main() {
                 id: item.id,
                 name: item.name,
                 birthday: {
-                    month: birthday.getMonth() + 1,
-                    day: birthday.getDate(),
+                    month: birthdayMonth,
+                    day: birthdayDay,
                 },
                 release: release ? release.toISOString() : void 0,
             });
